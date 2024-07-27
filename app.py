@@ -1,33 +1,50 @@
-class contaCliente():
-    def __init__(self, nome, saldo):
+class ContaCliente():
+    def __init__(self, nome, saldo=0):
         self.nome = nome
         self.saldo = saldo
 
-    def menu():
-        escolha = 0
-        while (escolha != 4):
-            print('Escolha uma opção:')
-            print('\t1 - Consultar Saldo:')
-            print('\t2 - Realizar depósito:')
-            print('\t3 - Realixar saque:')
-            print('\t4 - Sair:')
-            escolha = int(input())
+    def menu(self):
+        modulos = ['Consultar Saldo', 'Realizar depósito', 'Realizar Saque', 'Sair']
+        print(f'='*50)  
+        print(f'Cliente: {self.nome}, escolha um módulo:')
+        for i, modulo in enumerate(modulos):
+            print(f'\t[{i+1}] - {modulo}')
 
-            if not isinstance(escolha, int):
-                return "opção inválida"
-            elif(escolha == 1): 
-                return contaCliente.consultarSaldo()
-            else:
-                return 'else'
+    def main(self,modulo=0):
+        while modulo !=4:
+            ContaCliente.menu(self)
+            try:
+                print()
+                modulo = int(input('Modulo: '))
+                print(f'='*50)  
+                if modulo < 1 or modulo > 4:
+                    print('Escola diferente')
+                if modulo == 1: 
+                    print(self.getSaldo())
+                if modulo == 2: 
+                    print(self.realizarDeposito())
+                if modulo == 3: 
+                    print(self.realizarSaque())
+            except ValueError:
+                print('|OPÇÃO INVALIDA...digite um numero')
+        return '\t\t\t\t\t\t|| ...Saindo do menu'
 
 
-
-        print('saiu do while')
-        return f'return...', escolha   
+    def getSaldo(self):
+        return f'{self.nome}, seu saldo atual é: R$ {self.saldo}'
     
-    def consultarSaldo():
-        return 'chegou return saldo'
+    def realizarDeposito(self):
+        deposito = float(input('Valor de depósito: '))
+        self.saldo += deposito
+        return f'Valor {deposito} depositado com sucesso'
     
-cliente1 = (input('Digite nome: '))
-contaCliente(cliente1, saldo = 0)
-contaCliente.menu()
+    def realizarSaque(self):
+        saque = float(input('Valor de Saque: '))
+        self.saldo -= saque
+        return f'Valor {saque} sacado com sucesso'
+
+cliente1 = ContaCliente('Joshua')
+print(ContaCliente.main(cliente1))
+
+cliente2 = ContaCliente('Mathias')
+print(ContaCliente.main(cliente2))
